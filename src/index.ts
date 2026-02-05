@@ -18,7 +18,17 @@ export class CopyButton extends CopyButtonClient {
 
     render () {
         const classes = Array.from(this.classList)
-        this.innerHTML = html(classes)
+        const hint = this.getAttribute('hint')
+
+        // If hint attribute is present, pass it to html generator
+        if (this.hasAttribute('hint')) {
+            const hintValue = hint === '' || hint === 'true' || hint === null
+                ? true
+                : hint
+            this.innerHTML = html({ classes, hint: hintValue })
+        } else {
+            this.innerHTML = html({ classes })
+        }
     }
 }
 

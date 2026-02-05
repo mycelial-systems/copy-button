@@ -6,6 +6,7 @@ export class CopyButtonClient extends HTMLElement {
     static TAG = 'copy-button'
     static observedAttributes:string[] = ['payload']
     payload:string|null
+    private hintTimeoutId?: number
 
     constructor () {
         super()
@@ -26,7 +27,12 @@ export class CopyButtonClient extends HTMLElement {
         const dur = this.getAttribute('duration')
         const time:number = dur ? parseInt(dur) : 2000
 
-        clipboardCopy(this.payload)
+        try {
+            await clipboardCopy(this.payload)
+        } catch (err) {
+            console.error('Copy failed:', err)
+            return  // Don't show success state or hint if copy failed
+        }
 
         const button = this.querySelector('button')
         if (!button) {
@@ -42,6 +48,11 @@ export class CopyButtonClient extends HTMLElement {
         // re-render with success check mark
         button.innerHTML = `${SuccessSvg()}`
 
+        // Show hint popover if hint attribute is present
+        if (this.hasAttribute('hint')) {
+            this.showHint(time)
+        }
+
         await sleep(time)
 
         // Restore original state
@@ -50,7 +61,29 @@ export class CopyButtonClient extends HTMLElement {
         button.innerHTML = `${CopySvg()}`  // re-render with copy icon
     }
 
+    private showHint (duration:number) {
+        const hint = this.querySelector('.copy-hint') as HTMLElement | null
+        if (!hint) return
+
+        // Clear any existing timeout (debounce rapid clicks)
+        if (this.hintTimeoutId) {
+            clearTimeout(this.hintTimeoutId)
+        }
+
+        // Use CSS class for visibility (avoids top-layer positioning issues
+        // with native popover API)
+        hint.classList.add('copy-hint--visible')
+        this.hintTimeoutId = window.setTimeout(() => {
+            hint.classList.remove('copy-hint--visible')
+            this.hintTimeoutId = undefined
+        }, duration)
+    }
+
     disconnectedCallback () {
+        // Clean up hint timeout if element is removed
+        if (this.hintTimeoutId) {
+            clearTimeout(this.hintTimeoutId)
+        }
         this.removeEventListener('click', this.clickListener)
     }
 

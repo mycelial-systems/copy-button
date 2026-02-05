@@ -1,25 +1,50 @@
 import { toAttributes } from '@substrate-system/web-component/attributes'
 
-export function CopyButton (classes?:string[]):string {
+export interface CopyButtonOptions {
+    classes?: string[];
+    hint?: string | boolean;
+}
+
+export function CopyButton (options?:CopyButtonOptions | string[]):string {
+    // Handle backwards compatibility - if array is passed, treat as classes
+    let classes: string[] | undefined
+    let hint: string | boolean | undefined
+
+    if (Array.isArray(options)) {
+        classes = options
+    } else if (options) {
+        classes = options.classes
+        hint = options.hint
+    }
+
     const classString = (classes || [])
         .concat(['copy-button'])
         .filter(Boolean)
         .join(' ')
 
+    // Determine hint text
+    let hintHtml = ''
+    if (hint !== undefined && hint !== false) {
+        const hintText = (hint === true || hint === '')
+            ? 'Copied'
+            : hint
+        hintHtml = `<span popover="manual" class="copy-hint" role="status" aria-live="polite">${hintText}</span>`
+    }
+
     return `<button aria-label="Copy" ${classString ? `class="${classString}"` : ''}>
         ${CopySvg()}
         <span class="visually-hidden">Copy</span>
-    </button>`
+    </button>${hintHtml}`
 }
 
 CopyButton.outerHTML = (
-    classes?:string[],
+    options?:CopyButtonOptions | string[],
     attrs:{ noOutline?:boolean } = {}
 ):string => {
     const attributes = toAttributes(attrs)
     return `<copy-button${attributes.length ? ` ${attributes}` : ''}>
-        ${CopyButton(classes)}
-    </copy-button$>`
+        ${CopyButton(options)}
+    </copy-button>`
 }
 
 export function CopySvg ():string {

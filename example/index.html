@@ -20,6 +20,22 @@
                 payload="Testing longer duration"
             ></copy-button>
         </p>
+
+        <p>
+            This one has a hint (shows "Copied" popover)
+            <copy-button
+                hint
+                payload="Text with hint"
+            ></copy-button>
+        </p>
+
+        <p>
+            This one has a custom hint text
+            <copy-button
+                hint="Link copied to clipboard!"
+                payload="https://example.com"
+            ></copy-button>
+        </p>
     </div>
 
     <script type="module" src="./index.ts"></script>
