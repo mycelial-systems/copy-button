@@ -4,3 +4,6 @@ bundle.js
 dist
 .env
 public
+.claude
+.playwright-mcp
+

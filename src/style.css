@@ -8,7 +8,8 @@ copy-button {
     background: none;
     padding: 0.3rem 0.1rem;
     color: black;
-        
+    position: relative;  /* For positioning the popover */
+
     & .copy-wrapper {
         fill: var(--copy-button, black);
     }
@@ -28,5 +29,54 @@ copy-button {
 
     & .success-svg {
         fill: var(--copy-button-success, black);
+    }
+
+    & .copy-hint {
+        /* Base styles */
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        background: var(--copy-button-hint-bg, #333);
+        color: var(--copy-button-hint-color, #fff);
+        border-radius: var(--copy-button-hint-radius, 4px);
+        white-space: nowrap;
+        border: none;
+
+        /* Hidden by default */
+        display: none;
+        opacity: 0;
+
+        /* Positioning (shared by popover and fallback) */
+        position: absolute;
+        inset: unset;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0 0 4px 0;
+
+        /* Animation */
+        transition: opacity 0.15s ease-in-out, display 0.15s allow-discrete;
+
+        /* When popover is open (native API) */
+        &:popover-open {
+            display: block;
+            opacity: 1;
+
+            @starting-style {
+                opacity: 0;
+            }
+        }
+
+        /* Fallback: JS-toggled class for browsers without popover */
+        &.copy-hint--visible {
+            display: block;
+            opacity: 1;
+        }
+    }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    copy-button .copy-hint {
+        transition: none;
     }
 }

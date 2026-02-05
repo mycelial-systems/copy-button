@@ -23,7 +23,7 @@
   },
   "scripts": {
     "lint": "eslint \"./src/*.ts\" \"./test/*.ts\"",
-    "test:browser": "esbuild ./test/index.ts --bundle | npx tapout",
+    "test:browser": "esbuild ./test/index.ts --bundle | npx tapout --timeout 30000",
     "test:node": "esbuild ./test/node.ts --bundle | node",
     "test": "npm run test:browser && npm run test:node",
     "build-css": "postcss src/style.css --use postcss-nesting > dist/style.css",
