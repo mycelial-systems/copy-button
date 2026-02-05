@@ -19,13 +19,17 @@ made with webcomponents.
 - [Demonstration](#demonstration)
 - [Globals](#globals)
 - [Use](#use)
+  * [Example with hint text](#example-with-hint-text)
   * [Example without a build step](#example-without-a-build-step)
   * [With a build step](#with-a-build-step)
   * [`/copy`](#copy)
   * [`/html`](#html)
   * [`/client`](#client)
 - [CSS](#css-1)
-  * [Attributes](#attributes)
+- [Attributes](#attributes)
+  * [`payload`](#payload)
+  * [`duration`](#duration)
+  * [`hint`](#hint)
   * [Screenshots](#screenshots)
 
 <!-- tocstop -->
