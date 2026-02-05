@@ -1,6 +1,6 @@
+import { define as _define } from '@substrate-system/web-component/util'
 import { CopyButton as html } from './html'
 import { CopyButtonClient } from './client.js'
-import { define as _define } from '@substrate-system/web-component/util'
 
 // for document.querySelector
 declare global {
@@ -22,9 +22,12 @@ export class CopyButton extends CopyButtonClient {
 
         // If hint attribute is present, pass it to html generator
         if (this.hasAttribute('hint')) {
-            const hintValue = hint === '' || hint === 'true' || hint === null
-                ? true
-                : hint
+            const hintValue = (
+                hint === '' ||
+                hint === 'true' ||
+                hint === null
+            ) ? true : hint
+
             this.innerHTML = html({ classes, hint: hintValue })
         } else {
             this.innerHTML = html({ classes })

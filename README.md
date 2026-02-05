@@ -68,6 +68,15 @@ import '@substrate-system/copy-button/css'
 <copy-button payload="this text will be copied"></copy-button>
 ```
 
+### Example with hint text
+
+```html
+<!--
+This will show "copied" text as a popover because `hint` attribute.
+-->
+<copy-button hint payload="example"></copy-button>
+```
+
 ### Example without a build step
 
 #### Copy the files
@@ -499,17 +508,17 @@ the color.
 }
 ```
 
-### Attributes
-1 required attribute, 1 optional attribute.
+## Attributes
+1 required attribute, 2 optional attributes.
 
-#### `payload`
+### `payload`
 The text you want to copy.
 
 ```html
 <copy-button payload="example"></copy-button>
 ```
 
-#### `duration`
+### `duration`
 Length of time in milliseconds that the success checkmark should show.
 Default is `2000` (2 seconds).
 
@@ -517,6 +526,15 @@ Default is `2000` (2 seconds).
 <copy-button duration="4000" payload="example"></copy-button>
 ```
 
+### `hint`
+
+If `hint` is present, then a "Copied" popover element will show when you
+click. If `hint` is set to some text, eg `<copy-button hint="abc 123">`,
+then the given text will be used in the popover element.
+
+```html
+<copy-button payload="example" hint></copy-button>
+```
 
 --------------------------------------------------------
 
@@ -529,3 +547,9 @@ Create a button like this
 -------
 
 ![screenshot of the button, post-click](image-1.png)
+
+---
+
+With `hint` attribute:
+
+![Screenshot of hint attribute](image-2.png)
