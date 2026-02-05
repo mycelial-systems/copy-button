@@ -1,14 +1,14 @@
 import { toAttributes } from '@substrate-system/web-component/attributes'
 
 export interface CopyButtonOptions {
-    classes?: string[];
-    hint?: string | boolean;
+    classes?:string[];
+    hint?:string|boolean;
 }
 
-export function CopyButton (options?:CopyButtonOptions | string[]):string {
+export function CopyButton (options?:CopyButtonOptions|string[]):string {
     // Handle backwards compatibility - if array is passed, treat as classes
-    let classes: string[] | undefined
-    let hint: string | boolean | undefined
+    let classes:string[]|undefined
+    let hint:string|boolean|undefined
 
     if (Array.isArray(options)) {
         classes = options
@@ -25,10 +25,11 @@ export function CopyButton (options?:CopyButtonOptions | string[]):string {
     // Determine hint text
     let hintHtml = ''
     if (hint !== undefined && hint !== false) {
-        const hintText = (hint === true || hint === '')
-            ? 'Copied'
-            : hint
-        hintHtml = `<span popover="manual" class="copy-hint" role="status" aria-live="polite">${hintText}</span>`
+        const hintText = (hint === true || hint === '') ?
+            'Copied' :
+            hint
+        hintHtml = '<span popover="manual" class="copy-hint" ' +
+            `role="status" aria-live="polite">${hintText}</span>`
     }
 
     return `<button aria-label="Copy" ${classString ? `class="${classString}"` : ''}>
