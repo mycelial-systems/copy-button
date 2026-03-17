@@ -8,6 +8,8 @@ export class CopyButtonClient extends HTMLElement {
     payload:string|null
     private hintTimeoutId?: number
 
+    static define = define
+
     constructor () {
         super()
         const payload = this.getAttribute('payload')
